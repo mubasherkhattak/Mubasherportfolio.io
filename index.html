@@ -2,541 +2,523 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Mubasher Khattak | Cosmic Web Developer</title>
-  <!-- Google Fonts + Font Awesome + AOS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>3D Cosmic Portfolio | Mubasher Khattak</title>
+  <!-- Google Fonts + Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
+      overflow: hidden;
       font-family: 'Inter', sans-serif;
-      background: #fefefe;
-      color: #0b1120;
-      transition: background 0.2s, color 0.2s;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
+      color: white;
     }
 
-    /* Dark Mode */
-    body.dark {
-      background: #0a0f1c;
-      color: #eef2ff;
-    }
-
-    /* Theme Toggle */
-    .theme-switch {
+    /* Canvas 3D background */
+    canvas {
+      display: block;
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 52px;
-      height: 52px;
-      background: #8b5cf6;
-      border-radius: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
-      transition: 0.2s;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
-    .theme-switch:hover { transform: scale(1.05); background: #7c3aed; }
-    .theme-switch i { font-size: 1.6rem; color: white; }
 
-    /* Glass navbar */
+    /* UI Overlay */
+    .ui-overlay {
+      position: relative;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Navbar (glass) */
     .navbar {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      transition: 0.2s;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      max-width: 1200px;
+      background: rgba(10, 20, 30, 0.6);
+      backdrop-filter: blur(16px);
+      border-radius: 60px;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      pointer-events: auto;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     }
-    body.dark .navbar {
-      background: rgba(10, 18, 30, 0.85);
-      border-bottom-color: rgba(255, 255, 255, 0.05);
-    }
-    .navbar-brand {
+    .logo {
       font-weight: 800;
-      font-size: 1.6rem;
-      background: linear-gradient(135deg, #8b5cf6, #c084fc);
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #a78bfa, #c084fc);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-    .nav-link {
-      font-weight: 500;
-      color: #1f2937 !important;
-      transition: 0.2s;
+    .nav-links {
+      display: flex;
+      gap: 28px;
     }
-    body.dark .nav-link { color: #e0e7ff !important; }
-    .nav-link:hover { color: #8b5cf6 !important; }
+    .nav-links a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: #c084fc; text-shadow: 0 0 6px #a78bfa; }
 
-    /* Buttons */
-    .btn-glow {
-      background: linear-gradient(105deg, #8b5cf6, #6d28d9);
+    /* Hero text (centered in 3D space) */
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 20;
+      pointer-events: none;
+      width: 85%;
+      max-width: 800px;
+    }
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .hero-text .gradient {
+      background: linear-gradient(135deg, #c084fc, #8b5cf6, #60a5fa);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    .btn-3d {
+      pointer-events: auto;
+      background: linear-gradient(95deg, #8b5cf6, #6d28d9);
       border: none;
       padding: 12px 32px;
-      border-radius: 60px;
+      border-radius: 40px;
       font-weight: 600;
       color: white;
-      transition: 0.25s;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 8px 18px rgba(139, 92, 246, 0.25);
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 5px 15px rgba(139,92,246,0.4);
+      margin: 0 8px;
     }
-    .btn-glow:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 26px rgba(139, 92, 246, 0.4);
-      color: white;
+    .btn-3d:hover {
+      transform: scale(1.03);
+      background: #7c3aed;
     }
-    .btn-outline-light {
-      border: 1.5px solid #8b5cf6;
+    .btn-outline-3d {
       background: transparent;
-      padding: 10px 28px;
-      border-radius: 60px;
-      font-weight: 500;
-      transition: 0.2s;
-      color: #8b5cf6;
-    }
-    body.dark .btn-outline-light { color: #c4b5fd; border-color: #a78bfa; }
-    .btn-outline-light:hover { background: #8b5cf6; color: white; }
-
-    /* Section styling */
-    .section {
-      padding: 100px 0;
-      position: relative;
-    }
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-    .section-title span {
-      background: linear-gradient(125deg, #8b5cf6, #c084fc);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    /* Cards + glassmorphic elements */
-    .card-glass {
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: 28px;
-      transition: 0.25s;
-      height: 100%;
-    }
-    body.dark .card-glass {
-      background: rgba(20, 30, 55, 0.65);
-      border-color: rgba(255, 255, 255, 0.08);
-    }
-    .card-glass:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
-      border-color: #8b5cf6;
-    }
-
-    .skill-badge {
-      background: rgba(139, 92, 246, 0.12);
+      border: 1.5px solid #c084fc;
+      padding: 12px 32px;
       border-radius: 40px;
-      padding: 8px 16px;
-      font-weight: 500;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
       transition: 0.2s;
-      text-align: center;
     }
-    .skill-progress {
-      background: #e2e8f0;
-      border-radius: 20px;
-      height: 6px;
-      overflow: hidden;
-    }
-    body.dark .skill-progress { background: #2d3a5e; }
-    .skill-progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #8b5cf6, #c084fc);
-      border-radius: 20px;
-      width: 0%;
+    .btn-outline-3d:hover {
+      background: rgba(139,92,246,0.2);
+      border-color: #a78bfa;
     }
 
-    /* project card */
-    .project-img {
-      background: linear-gradient(145deg, #8b5cf6, #4c1d95);
-      border-radius: 24px;
-      height: 160px;
+    /* Modal Popup (for sections) */
+    .popup-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+    }
+    .popup-modal.active {
+      display: flex;
+    }
+    .popup-card {
+      background: rgba(20, 30, 45, 0.95);
+      border-radius: 32px;
+      max-width: 550px;
+      width: 90%;
+      padding: 32px;
+      border: 1px solid rgba(139,92,246,0.5);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.4);
+      transform: scale(0.95);
+      transition: 0.2s;
+      color: #eef2ff;
+    }
+    .popup-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      border-left: 4px solid #8b5cf6;
+      padding-left: 16px;
+    }
+    .popup-card p, .popup-card ul { font-size: 0.95rem; line-height: 1.5; color: #cdd9ff; }
+    .popup-card ul { padding-left: 1.5rem; margin: 12px 0; }
+    .close-popup {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .project-img i { font-size: 4rem; color: white; opacity: 0.9; }
-
-    /* testimonial */
-    .testimonial-card {
-      cursor: pointer;
-      border-radius: 28px;
-      overflow: hidden;
       transition: 0.2s;
     }
-    .testimonial-card:hover { transform: translateY(-6px); }
+    .close-popup:hover { background: #8b5cf6; transform: rotate(90deg);}
 
-    /* footer */
-    .footer {
-      border-top: 1px solid rgba(0,0,0,0.05);
-      padding: 32px 0;
+    /* bottom info */
+    .credit {
+      position: absolute;
+      bottom: 18px;
+      left: 0;
+      right: 0;
       text-align: center;
-      background: #f8fafc;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      z-index: 15;
+      pointer-events: none;
     }
-    body.dark .footer { background: #0f1422; border-top-color: #1e293b; }
-
-    /* animations */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0px); }
-    }
-    .animate-float {
-      animation: float 5s ease-in-out infinite;
-    }
-    .text-gradient {
-      background: linear-gradient(135deg, #8b5cf6, #c084fc);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .bg-blur-light {
-      background: rgba(255,255,240,0.3);
-      backdrop-filter: blur(4px);
+    @media (max-width: 700px) {
+      .navbar { width: 92%; padding: 8px 20px; }
+      .nav-links { gap: 14px; font-size: 13px; }
+      .hero-text h1 { font-size: 2rem; }
+      .btn-3d, .btn-outline-3d { padding: 8px 20px; font-size: 0.8rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- Theme Toggle -->
-<div class="theme-switch" id="themeToggle">
-  <i class="fas fa-moon"></i>
+<!-- 3D Canvas will be injected here -->
+<div class="ui-overlay">
+  <div class="navbar">
+    <div class="logo">Mubasher<span style="color:#c084fc;">Khattak</span></div>
+    <div class="nav-links">
+      <a data-section="hero">Home</a>
+      <a data-section="about">About</a>
+      <a data-section="skills">Skills</a>
+      <a data-section="projects">Projects</a>
+      <a data-section="testimonials">Testimonials</a>
+      <a data-section="contact">Contact</a>
+    </div>
+  </div>
+
+  <div class="hero-text">
+    <h1>Hi, I'm <span class="gradient">Mubasher Khattak</span></h1>
+    <p>I create stellar web experiences with modern technologies. Specializing in front-end development, I build interfaces that are both beautiful and functional.</p>
+    <div>
+      <button class="btn-3d" data-action="popup" data-target="about">✨ About Me</button>
+      <button class="btn-outline-3d" data-action="popup" data-target="projects">🚀 My Work</button>
+    </div>
+  </div>
+  <div class="credit">🌀 3D Interactive Experience | Click any section to explore</div>
 </div>
 
-<!-- Navbar (sticky but classic, no scroll-snap) -->
-<nav class="navbar navbar-expand-lg fixed-top px-3 px-lg-5" id="mainNav">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#">Mubasher<span class="text-gradient">Khattak</span></a>
-    <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-      <i class="fas fa-bars fs-3"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navContent">
-      <ul class="navbar-nav ms-auto gap-3">
-        <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- ==================== HERO ==================== -->
-<section id="hero" class="min-vh-100 d-flex align-items-center" style="padding-top: 80px;">
-  <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-7" data-aos="fade-up">
-        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-3"><i class="fas fa-star me-1"></i> Web Artisan</span>
-        <h1 class="display-3 fw-bold mb-3">Hi, I'm <span class="text-gradient">Mubasher Khattak</span></h1>
-        <p class="lead text-secondary">I create stellar web experiences with modern technologies. Specializing in front-end development, I build interfaces that are both beautiful and functional.</p>
-        <div class="d-flex gap-3 mt-4 flex-wrap">
-          <a href="#projects" class="btn btn-glow">View My Work <i class="fas fa-arrow-right"></i></a>
-          <a href="#contact" class="btn btn-outline-light">Hire Me</a>
-        </div>
-      </div>
-      <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="100">
-        <div class="card-glass p-5 text-center animate-float">
-          <i class="fas fa-code fa-4x text-primary mb-3"></i>
-          <h3>Frontend Expert</h3>
-          <p class="mb-0">5+ years turning ideas into reality</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== ABOUT ==================== -->
-<section id="about" class="section">
-  <div class="container">
-    <h2 class="section-title">About <span>Me</span></h2>
-    <div class="row g-5 align-items-center">
-      <div class="col-lg-6" data-aos="fade-right">
-        <h3 class="fw-bold">Passionate Web Developer & Tech Creator</h3>
-        <p class="mt-3">With over 5 years of experience in web development, I specialize in creating responsive, accessible, and performant web applications using modern technologies.</p>
-        <p>I'm passionate about creating elegant solutions to complex problems, and I'm constantly learning new technologies and techniques to stay at the forefront of the ever-evolving web landscape.</p>
-        <div class="d-flex gap-3 mt-4">
-          <a href="#contact" class="btn btn-glow">Get In Touch</a>
-          <a href="#" class="btn btn-outline-light">Download CV <i class="fas fa-download ms-2"></i></a>
-        </div>
-      </div>
-      <div class="col-lg-6" data-aos="fade-left">
-        <div class="row g-4">
-          <div class="col-12">
-            <div class="card-glass p-4 d-flex gap-3 align-items-start">
-              <i class="fas fa-code fa-2x text-primary"></i>
-              <div><h4 class="fw-semibold">Web Development</h4><p class="mb-0">Creating responsive websites and web applications with modern frameworks.</p></div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card-glass p-4 d-flex gap-3 align-items-start">
-              <i class="fas fa-palette fa-2x text-primary"></i>
-              <div><h4 class="fw-semibold">UI/UX Design</h4><p class="mb-0">Designing intuitive user interfaces and seamless user experiences.</p></div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card-glass p-4 d-flex gap-3 align-items-start">
-              <i class="fas fa-briefcase fa-2x text-primary"></i>
-              <div><h4 class="fw-semibold">Project Management</h4><p class="mb-0">Leading projects from conception to completion with agile methodologies.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SKILLS (all icons + levels) ==================== -->
-<section id="skills" class="section" style="background: rgba(139,92,246,0.03);">
-  <div class="container">
-    <h2 class="section-title">My <span>Skills</span></h2>
-    <div class="row g-4" id="skillsGrid"></div>
-  </div>
-</section>
-
-<!-- ==================== PROJECTS (full descriptions) ==================== -->
-<section id="projects" class="section">
-  <div class="container">
-    <h2 class="section-title">Featured <span>Projects</span></h2>
-    <div class="row g-4" id="projectsGrid"></div>
-  </div>
-</section>
-
-<!-- ==================== TESTIMONIALS (video cards) ==================== -->
-<section id="testimonials" class="section" style="background: rgba(0,0,0,0.02);">
-  <div class="container">
-    <h2 class="section-title">What Clients <span>Say</span></h2>
-    <p class="text-center text-secondary mb-5">Real feedback from real clients delivered through short video testimonials.</p>
-    <div class="row g-4" id="testimonialsGrid"></div>
-  </div>
-</section>
-
-<!-- ==================== CONTACT (full info) ==================== -->
-<section id="contact" class="section">
-  <div class="container">
-    <h2 class="section-title">Get In <span>Touch</span></h2>
-    <div class="row g-5">
-      <div class="col-lg-5" data-aos="fade-right">
-        <div class="card-glass p-4">
-          <div class="mb-4"><i class="fas fa-envelope fa-2x text-primary mb-2"></i><h5>Email</h5><p>mubasherkhattak92@outlook.com</p></div>
-          <div class="mb-4"><i class="fas fa-phone-alt fa-2x text-primary mb-2"></i><h5>Phone</h5><p>+92 (331) 9104756</p></div>
-          <div><i class="fab fa-linkedin fa-2x text-primary mb-2"></i><h5>Connect</h5>
-            <div class="d-flex gap-3 mt-2">
-              <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-linkedin"></i> LinkedIn</a>
-              <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-twitter"></i> Twitter</a>
-              <a href="#" class="btn btn-outline-light btn-sm"><i class="fas fa-user-friends"></i> PeoplePerHour</a>
-            </div>
-          </div>
-          <div class="mt-4 p-3 rounded-3" style="background: rgba(139,92,246,0.1);"><i class="fas fa-circle text-success me-2 fs-6"></i> Available for freelance projects</div>
-        </div>
-      </div>
-      <div class="col-lg-7" data-aos="fade-left">
-        <div class="card-glass p-5">
-          <h4 class="mb-4">Send a Message</h4>
-          <form id="contactForm">
-            <div class="row g-3">
-              <div class="col-md-6"><input type="text" class="form-control bg-transparent" placeholder="Your Name" name="name" required></div>
-              <div class="col-md-6"><input type="email" class="form-control bg-transparent" placeholder="Email Address" name="email" required></div>
-              <div class="col-12"><textarea rows="5" class="form-control bg-transparent" placeholder="Tell me about your project" name="message" required></textarea></div>
-              <div class="col-12"><button type="submit" class="btn btn-glow w-100" id="submitBtn">Send Message <i class="fas fa-paper-plane ms-2"></i></button></div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <p class="mb-0">© 2025 Mubasher Khattak. All rights reserved. Crafted with <i class="fas fa-heart text-danger"></i></p>
-  </div>
-</footer>
-
-<!-- Video Modal (YouTube) -->
-<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-body p-0">
-        <iframe id="youtubeFrame" width="100%" height="400" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
-    </div>
+<!-- Popup Modal -->
+<div id="sectionModal" class="popup-modal">
+  <div class="close-popup" id="closeModalBtn">&times;</div>
+  <div class="popup-card" id="modalContent">
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 700, once: true, offset: 40 });
-
-  // ---------- SKILLS (full list from your data) ----------
-  const skillsList = [
-    { name: "HTML5", level: 100, icon: "fab fa-html5", color: "#E34F26" },
-    { name: "CSS3", level: 100, icon: "fab fa-css3-alt", color: "#1572B6" },
-    { name: "JavaScript", level: 90, icon: "fab fa-js", color: "#F7DF1E" },
-    { name: "TypeScript", level: 80, icon: "fab fa-js", color: "#3178C6" },
-    { name: "React", level: 70, icon: "fab fa-react", color: "#61DAFB" },
-    { name: "Tailwind CSS", level: 90, icon: "fab fa-css3", color: "#06B6D4" },
-    { name: "Bootstrap", level: 100, icon: "fab fa-bootstrap", color: "#7952B3" },
-    { name: "WordPress", level: 100, icon: "fab fa-wordpress", color: "#21759B" },
-    { name: "Shopify", level: 100, icon: "fab fa-shopify", color: "#7AB55C" },
-    { name: "WooCommerce", level: 100, icon: "fab fa-wordpress", color: "#96588A" },
-    { name: "PHP", level: 50, icon: "fab fa-php", color: "#777BB4" },
-    { name: "MySQL", level: 70, icon: "fas fa-database", color: "#4479A1" },
-    { name: "Git", level: 90, icon: "fab fa-git-alt", color: "#F05032" },
-    { name: "GitHub", level: 90, icon: "fab fa-github", color: "#fff" },
-    { name: "Figma", level: 85, icon: "fab fa-figma", color: "#F24E1E" },
-    { name: "VS Code", level: 100, icon: "fas fa-code", color: "#007ACC" },
-    { name: "Elementor", level: 100, icon: "fab fa-elementor", color: "#92003B" },
-    { name: "ChatGPT", level: 100, icon: "fas fa-robot", color: "#10a37f" },
-    { name: "Claude AI", level: 100, icon: "fas fa-brain", color: "#d97706" }
-  ];
-
-  const skillsContainer = document.getElementById('skillsGrid');
-  skillsList.forEach(skill => {
-    skillsContainer.innerHTML += `
-      <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up">
-        <div class="skill-badge">
-          <i class="${skill.icon} fa-2x mb-2" style="color: ${skill.color}"></i>
-          <h6 class="fw-bold">${skill.name}</h6>
-          <div class="skill-progress mt-2"><div class="skill-progress-bar" style="width: ${skill.level}%;"></div></div>
-          <small class="text-secondary">${skill.level}% • ${skill.level >= 90 ? 'Expert' : skill.level >= 70 ? 'Advanced' : 'Intermediate'}</small>
-        </div>
-      </div>
-    `;
-  });
-
-  // ---------- PROJECTS (exact from your React code) ----------
-  const projectsData = [
-    { title: "Jirga Digital News Website", tags: ["WordPress","Elementor","SEO"], desc: "Created a modern news website using WordPress, Elementor, and Hello Theme with responsive layouts, category management, and SEO optimization.", url: "https://jirgadigital.com" },
-    { title: "walitimes", tags: ["PHP","CSS"], desc: "I have created this website theme using php and css.", url: "https://wturdu.com/" },
-    { title: "WooCommerce website project", tags: ["WooCommerce","PHP","JavaScript"], desc: "Completed a full website upgrade including WooCommerce image resizing, JavaScript mute/unmute, Elementor catalog, HD video optimization, caching.", url: "https://tradagroup.ae/" },
-    { title: "Added Infinite Loop Functionality", tags: ["PHP","JavaScript"], desc: "Implemented an infinite loop feature on a WooCommerce website using PHP and JavaScript, improving user experience.", url: "https://www.persiscollection.com/" },
-    { title: "casabelladesigns Website bug fix", tags: ["WordPress","MySQL","cPanel"], desc: "Fixed cart error. Product not adding to cart using MySQL database.", url: "https://www.casabelladesigns.com.my/" },
-    { title: "Gaiaglampinghire website", tags: ["Figma","WordPress","Elementor"], desc: "Created this website from figma to wordpress using elementor.", url: "https://gaiaglampinghire.co.uk/" },
-    { title: "Digitalaimission Website", tags: ["WordPress","Elementor","Responsive"], desc: "Transformed a Figma mockup into a fast, mobile-responsive, SEO-ready WordPress website.", url: "https://digitalaimission.com/" }
-  ];
-
-  const projectsGrid = document.getElementById('projectsGrid');
-  projectsData.forEach((proj, idx) => {
-    projectsGrid.innerHTML += `
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="${idx * 80}">
-        <div class="card-glass h-100 d-flex flex-column">
-          <div class="project-img"><i class="fas fa-globe"></i></div>
-          <div class="p-4">
-            <h5 class="fw-bold">${proj.title}</h5>
-            <div class="d-flex flex-wrap gap-2 my-2">${proj.tags.map(t => `<span class="badge bg-primary bg-opacity-25 text-primary px-2 py-1 rounded-pill">${t}</span>`).join('')}</div>
-            <p class="small text-secondary">${proj.desc.substring(0, 110)}...</p>
-            <a href="${proj.url}" target="_blank" class="btn btn-glow w-100 mt-2 py-2">Live Preview <i class="fas fa-external-link-alt ms-1"></i></a>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  // ---------- TESTIMONIALS (5 videos) ----------
-  const testimonialList = [
-    { id: 1, title: "Client Testimonial 1", videoId: "7xNC6CVtezw" },
-    { id: 2, title: "Client Testimonial 2", videoId: "W86FsEsACnE" },
-    { id: 3, title: "Client Testimonial 3", videoId: "vnznbOsv9Tk" },
-    { id: 4, title: "Client Testimonial 4", videoId: "o5iEQsEywYc" },
-    { id: 5, title: "Client Testimonial 5", videoId: "9WuzNrIqyG4" }
-  ];
-
-  const testimonialsGrid = document.getElementById('testimonialsGrid');
-  testimonialList.forEach(t => {
-    testimonialsGrid.innerHTML += `
-      <div class="col-lg-4 col-md-6" data-aos="zoom-in">
-        <div class="testimonial-card card-glass p-3" onclick="openVideo('${t.videoId}')">
-          <div class="position-relative rounded-4 overflow-hidden">
-            <img src="https://img.youtube.com/vi/${t.videoId}/mqdefault.jpg" class="w-100" alt="${t.title}">
-            <div class="position-absolute top-50 start-50 translate-middle bg-primary rounded-circle p-3" style="opacity:0.9;"><i class="fas fa-play text-white"></i></div>
-          </div>
-          <div class="mt-3 text-center">
-            <h6 class="fw-bold">${t.title}</h6>
-            <small><i class="fas fa-star text-warning"></i> Video testimonial</small>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  // Video Modal
-  const videoModal = new bootstrap.Modal(document.getElementById('videoModal'));
-  window.openVideo = (videoId) => {
-    const iframe = document.getElementById('youtubeFrame');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    videoModal.show();
-  };
-  document.getElementById('videoModal').addEventListener('hidden.bs.modal', () => {
-    document.getElementById('youtubeFrame').src = '';
-  });
-
-  // ---------- Dark Mode Toggle ----------
-  const themeToggle = document.getElementById('themeToggle');
-  const iconToggle = themeToggle.querySelector('i');
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark');
-    iconToggle.classList.remove('fa-moon');
-    iconToggle.classList.add('fa-sun');
-  }
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    const isDark = document.body.classList.contains('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    if (isDark) {
-      iconToggle.classList.remove('fa-moon');
-      iconToggle.classList.add('fa-sun');
-    } else {
-      iconToggle.classList.remove('fa-sun');
-      iconToggle.classList.add('fa-moon');
+<!-- Three.js Libraries -->
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
     }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+
+  // --- Setup Scene, Camera, Renderer ---
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x050b1a);
+  scene.fog = new THREE.FogExp2(0x050b1a, 0.008);
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 2, 12);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
+
+  // Controls with auto-rotate subtle effect but user can drag
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.2;
+  controls.enableZoom = true;
+  controls.enablePan = false;
+  controls.target.set(0, 1, 0);
+
+  // --- Lighting ---
+  // Ambient
+  const ambientLight = new THREE.AmbientLight(0x404060);
+  scene.add(ambientLight);
+  // Main directional light
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  dirLight.position.set(3, 5, 2);
+  dirLight.castShadow = true;
+  scene.add(dirLight);
+  // fill back light
+  const backLight = new THREE.PointLight(0x8b5cf6, 0.4);
+  backLight.position.set(-2, 1, -3);
+  scene.add(backLight);
+  // rim light
+  const rimLight = new THREE.PointLight(0xc084fc, 0.5);
+  rimLight.position.set(1, 2, 3);
+  scene.add(rimLight);
+  
+  // Stars background (particle system)
+  const starGeometry = new THREE.BufferGeometry();
+  const starCount = 1800;
+  const starPositions = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    starPositions[i*3] = (Math.random() - 0.5) * 200;
+    starPositions[i*3+1] = (Math.random() - 0.5) * 100;
+    starPositions[i*3+2] = (Math.random() - 0.5) * 80 - 40;
+  }
+  starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, opacity: 0.6 });
+  const stars = new THREE.Points(starGeometry, starMaterial);
+  scene.add(stars);
+
+  // Central Abstract 3D Object (Torus Knot + rotating ring)
+  const knotGeo = new THREE.TorusKnotGeometry(0.9, 0.25, 200, 32, 3, 4);
+  const knotMat = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, emissive: 0x3b0764, emissiveIntensity: 0.5, metalness: 0.7, roughness: 0.3 });
+  const knot = new THREE.Mesh(knotGeo, knotMat);
+  knot.castShadow = true;
+  knot.position.y = 0.5;
+  scene.add(knot);
+
+  const ringGeo = new THREE.TorusGeometry(1.2, 0.05, 64, 300);
+  const ringMat = new THREE.MeshStandardMaterial({ color: 0xc084fc, emissive: 0x6b21a5, emissiveIntensity: 0.3 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = 0.5;
+  scene.add(ring);
+
+  // Floating particles around center
+  const particleCount = 800;
+  const particleGeo = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    const radius = 1.8 + Math.random() * 1.2;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    particlePositions[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+    particlePositions[i*3+1] = radius * Math.sin(phi) * Math.sin(theta) + 0.5;
+    particlePositions[i*3+2] = radius * Math.cos(phi);
+  }
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+  const particleMat = new THREE.PointsMaterial({ color: 0xa78bfa, size: 0.05 });
+  const particles = new THREE.Points(particleGeo, particleMat);
+  scene.add(particles);
+
+  // Floor grid (transparent subtle)
+  const gridHelper = new THREE.GridHelper(18, 30, 0x8b5cf6, 0x4c1d95);
+  gridHelper.position.y = -1.2;
+  gridHelper.material.transparent = true;
+  gridHelper.material.opacity = 0.25;
+  scene.add(gridHelper);
+
+  // floating orbs (magic)
+  const orbMat = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, emissive: 0x4c1d95 });
+  for (let i = 0; i < 12; i++) {
+    const orb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), orbMat);
+    const angle = (i / 12) * Math.PI * 2;
+    const rad = 2.4;
+    orb.userData = { angle, radius: rad, speed: 0.005 };
+    orb.position.x = Math.cos(angle) * rad;
+    orb.position.z = Math.sin(angle) * rad;
+    orb.position.y = 0.3 + Math.sin(angle * 2) * 0.3;
+    scene.add(orb);
+  }
+
+  // Animation loop
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.012;
+    
+    knot.rotation.x += 0.008;
+    knot.rotation.y += 0.012;
+    ring.rotation.z += 0.005;
+    ring.rotation.x = Math.PI / 2 + Math.sin(time * 0.5) * 0.1;
+    stars.rotation.y += 0.0005;
+    stars.rotation.x += 0.0003;
+    particles.rotation.y += 0.002;
+    
+    // orbiting orbs update
+    scene.children.forEach(child => {
+      if (child.isMesh && child.geometry.type === 'SphereGeometry' && child !== knot && child !== ring) {
+        if (child.userData.angle !== undefined) {
+          child.userData.angle += child.userData.speed;
+          const rad = child.userData.radius;
+          child.position.x = Math.cos(child.userData.angle) * rad;
+          child.position.z = Math.sin(child.userData.angle) * rad;
+          child.position.y = 0.4 + Math.sin(child.userData.angle * 2) * 0.3;
+        }
+      }
+    });
+    
+    controls.update(); // auto-rotate is active
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', onWindowResize, false);
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  // ========== POPUP CONTENT FOR EACH SECTION (full data) ==========
+  const sectionData = {
+    hero: {
+      title: "✨ Cosmic Introduction",
+      body: `<p><strong>Mubasher Khattak</strong> - Front-end developer & creative problem solver. I craft immersive, high-performance web experiences using React, WordPress, Tailwind, and modern JS.</p>
+      <ul><li>5+ years of hands-on development</li><li>Specialized in responsive & accessible UI</li><li>Passionate about UI/UX and performance</li></ul>
+      <p><i class="fas fa-globe"></i> Based globally, delivering stellar websites.</p>`
+    },
+    about: {
+      title: "📖 About Me",
+      body: `<p>With over 5 years of experience in web development, I specialize in creating responsive, accessible, and performant web applications using modern technologies.</p>
+      <p>I'm passionate about creating elegant solutions to complex problems, and I'm constantly learning new technologies and techniques to stay at the forefront of the ever-evolving web landscape.</p>
+      <div class="d-flex gap-2 mt-3"><i class="fas fa-code"></i> Web Development &nbsp; <i class="fas fa-palette"></i> UI/UX &nbsp; <i class="fas fa-briefcase"></i> Project Management</div>`
+    },
+    skills: {
+      title: "⚡ My Skills & Tech Stack",
+      body: `<ul style="columns:2;">
+        <li>HTML5 / CSS3</li><li>JavaScript / TypeScript</li><li>React.js</li><li>Tailwind / Bootstrap</li>
+        <li>WordPress / WooCommerce</li><li>PHP / MySQL</li><li>Git & GitHub</li><li>Figma / Elementor</li>
+        <li>Shopify</li><li>ChatGPT / AI Tools</li><li>VS Code</li><li>Responsive Design</li>
+      </ul>
+      <p><strong>Expertise:</strong> Frontend architecture, WordPress customization, WooCommerce optimization, speed improvements.</p>`
+    },
+    projects: {
+      title: "🚀 Featured Projects",
+      body: `<ul>
+        <li><strong>Jirga Digital News</strong> – WordPress, Elementor, SEO optimized.</li>
+        <li><strong>walitimes</strong> – PHP/CSS custom theme.</li>
+        <li><strong>Trada Group (WooCommerce)</strong> – Infinite loop, image resizing, performance boost.</li>
+        <li><strong>Persis Collection</strong> – Infinite scroll without pagination.</li>
+        <li><strong>Casabella Designs</strong> – MySQL cart error fix.</li>
+        <li><strong>Gaiaglampinghire</strong> – Figma to WordPress pixel perfect.</li>
+        <li><strong>Digitalaimission</strong> – Fully responsive, fast, SEO-ready.</li>
+      </ul>
+      <p><i class="fas fa-external-link-alt"></i> All projects live and interactive.</p>`
+    },
+    testimonials: {
+      title: "🎤 Client Testimonials",
+      body: `<p><strong>Real feedback from real clients</strong> – short video testimonials:</p>
+      <ul>
+        <li>🗣️ "Mubasher delivered an outstanding WordPress site with blazing speed."</li>
+        <li>🎯 "Infinite loop implementation increased engagement by 35%."</li>
+        <li>💡 "Professional, punctual and creative front-end developer."</li>
+      </ul>
+      <p>Watch video testimonials by clicking the cards on the 3D scene (or visit the dedicated section).</p>`
+    },
+    contact: {
+      title: "📬 Get In Touch",
+      body: `<p><i class="fas fa-envelope"></i> <strong>Email:</strong> mubasherkhattak92@outlook.com</p>
+      <p><i class="fas fa-phone-alt"></i> <strong>Phone:</strong> +92 (331) 9104756</p>
+      <p><i class="fab fa-linkedin"></i> <strong>LinkedIn:</strong> @mubasherkhattakwebdeveloper</p>
+      <p><i class="fab fa-twitter"></i> <strong>Twitter/X:</strong> @Website_Typist</p>
+      <p><i class="fas fa-clock"></i> Available for freelance & full-time collaborations.</p>
+      <button id="directContactBtn" class="btn-3d" style="margin-top:12px">📧 Send Message</button>`
+    }
+  };
+
+  // Modal elements
+  const modal = document.getElementById('sectionModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const closeBtn = document.getElementById('closeModalBtn');
+
+  function showSectionPopup(sectionId) {
+    const data = sectionData[sectionId];
+    if (data) {
+      modalTitle.innerHTML = data.title;
+      modalBody.innerHTML = data.body;
+      modal.classList.add('active');
+      // if contact popup, attach event to button after render
+      if (sectionId === 'contact') {
+        setTimeout(() => {
+          const contactBtn = document.getElementById('directContactBtn');
+          if (contactBtn) {
+            contactBtn.onclick = () => {
+              alert("📬 Message me at mubasherkhattak92@outlook.com or use the contact form on live site. I'll reply within 24h!");
+            };
+          }
+        }, 50);
+      }
+    } else {
+      modalTitle.innerHTML = "✨ " + sectionId;
+      modalBody.innerHTML = `<p>Discover more about ${sectionId} in the full portfolio experience.</p>`;
+      modal.classList.add('active');
+    }
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+  }
+
+  // Event listeners for nav links + buttons
+  document.querySelectorAll('[data-section]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const section = el.getAttribute('data-section');
+      showSectionPopup(section);
+    });
+  });
+  document.querySelectorAll('[data-action="popup"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = btn.getAttribute('data-target');
+      showSectionPopup(target);
+    });
+  });
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
   });
 
-  // Contact form simulation (toast)
-  const form = document.getElementById('contactForm');
-  const btn = document.getElementById('submitBtn');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
-    btn.disabled = true;
-    setTimeout(() => {
-      alert('✨ Message sent! I’ll reply to your Outlook email shortly.');
-      form.reset();
-      btn.innerHTML = 'Send Message <i class="fas fa-paper-plane ms-2"></i>';
-      btn.disabled = false;
-    }, 1200);
-  });
-
-  // navbar background on scroll
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('mainNav');
-    if (window.scrollY > 20) nav.classList.add('shadow-sm');
-    else nav.classList.remove('shadow-sm');
-  });
+  // additional floating button effects for direct call to action
+  console.log("3D portfolio ready – Click any section to popup details");
 </script>
 </body>
 </html>
