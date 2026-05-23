@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Mubasher Khattak | Web Developer Portfolio</title>
-    <!-- Google Fonts + Font Awesome + AOS -->
+    <title>Mubasher Khattak | Modern Portfolio</title>
+    <!-- Google Fonts + Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,65 +16,68 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fefefe;
-            color: #0f172a;
+            background: #ffffff;
+            color: #0a0a0a;
             scroll-behavior: smooth;
             transition: background 0.3s, color 0.2s;
+            line-height: 1.5;
         }
 
         /* Dark Mode */
         body.dark {
-            background: #0a0f1c;
-            color: #eef2ff;
+            background: #0a0c15;
+            color: #f0f0f0;
         }
 
-        /* Theme Toggle Button */
+        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             bottom: 25px;
             right: 25px;
             width: 50px;
             height: 50px;
-            background: #8b5cf6;
-            border-radius: 60px;
+            background: #2563eb;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 1000;
-            box-shadow: 0 5px 15px rgba(139,92,246,0.3);
+            box-shadow: 0 5px 15px rgba(37,99,235,0.3);
             transition: 0.2s;
+            border: none;
         }
-        .theme-toggle:hover { transform: scale(1.05); background: #7c3aed; }
-        .theme-toggle i { font-size: 1.5rem; color: white; }
+        .theme-toggle:hover { transform: scale(1.05); background: #1d4ed8; }
+        .theme-toggle i { font-size: 1.4rem; color: white; }
 
         /* Glass Navbar */
         .navbar {
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            border-radius: 60px;
-            padding: 14px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
             z-index: 100;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             transition: 0.2s;
         }
         body.dark .navbar {
-            background: rgba(10, 20, 35, 0.8);
-            border-color: rgba(255,255,255,0.08);
+            background: rgba(10,15,30,0.9);
+            border-bottom-color: rgba(255,255,255,0.05);
+        }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #8b5cf6, #c084fc);
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -91,32 +93,39 @@
             transition: 0.2s;
         }
         body.dark .nav-links a { color: #e2e8f0; }
-        .nav-links a:hover { color: #8b5cf6; }
+        .nav-links a:hover { color: #2563eb; }
+        .menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
         /* Buttons */
         .btn-primary {
-            background: linear-gradient(105deg, #8b5cf6, #6d28d9);
+            background: linear-gradient(105deg, #2563eb, #1d4ed8);
             border: none;
             padding: 12px 32px;
-            border-radius: 60px;
+            border-radius: 40px;
             font-weight: 600;
             color: white;
             transition: 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139,92,246,0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.3); }
         .btn-outline {
-            border: 1.5px solid #8b5cf6;
+            border: 1.5px solid #2563eb;
             background: transparent;
             padding: 10px 28px;
-            border-radius: 60px;
+            border-radius: 40px;
             font-weight: 500;
-            color: #8b5cf6;
+            color: #2563eb;
             transition: 0.2s;
+            text-decoration: none;
         }
-        .btn-outline:hover { background: #8b5cf6; color: white; }
+        .btn-outline:hover { background: #2563eb; color: white; }
 
         /* Sections */
         .section {
@@ -125,13 +134,13 @@
             margin: 0 auto;
         }
         .section-title {
-            font-size: 2.6rem;
+            font-size: 2.5rem;
             font-weight: 700;
             text-align: center;
             margin-bottom: 3rem;
         }
         .section-title span {
-            background: linear-gradient(135deg, #8b5cf6, #c084fc);
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -144,25 +153,26 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            padding-top: 80px;
         }
         .hero h1 {
-            font-size: 3.8rem;
+            font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
         }
         .hero .highlight {
-            background: linear-gradient(135deg, #8b5cf6, #c084fc);
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .hero p {
             font-size: 1.2rem;
-            color: #475569;
+            color: #4b5563;
             max-width: 650px;
             margin: 0 auto 2rem;
         }
-        body.dark .hero p { color: #94a3b8; }
+        body.dark .hero p { color: #9ca3af; }
 
         /* About Cards */
         .about-grid {
@@ -171,80 +181,68 @@
             gap: 2rem;
         }
         .about-card {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(0,0,0,0.05);
+            background: #f9fafb;
             border-radius: 28px;
             padding: 2rem;
             transition: 0.25s;
+            border: 1px solid #e5e7eb;
         }
         body.dark .about-card {
-            background: rgba(30,41,59,0.6);
-            border-color: rgba(255,255,255,0.05);
+            background: #111827;
+            border-color: #1f2937;
         }
-        .about-card:hover { transform: translateY(-6px); border-color: #8b5cf6; }
-        .about-card i { font-size: 2.2rem; color: #8b5cf6; margin-bottom: 1rem; }
+        .about-card:hover { transform: translateY(-6px); border-color: #2563eb; }
+        .about-card i { font-size: 2rem; color: #2563eb; margin-bottom: 1rem; }
 
-        /* Skills Grid - with icons */
+        /* Skills */
         .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
         }
-        .skill-item {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(0,0,0,0.05);
+        .skill-badge {
+            background: #f3f4f6;
+            padding: 10px 24px;
             border-radius: 60px;
-            padding: 10px 16px;
-            text-align: center;
             font-weight: 500;
             transition: 0.2s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
         }
-        body.dark .skill-item {
-            background: rgba(30,41,59,0.5);
-            border-color: rgba(255,255,255,0.07);
-        }
-        .skill-item:hover { border-color: #8b5cf6; transform: scale(1.02); background: rgba(139,92,246,0.1); }
-        .skill-item i { font-size: 1.2rem; }
+        body.dark .skill-badge { background: #1f2937; }
+        .skill-badge:hover { background: #2563eb; color: white; transform: translateY(-2px); }
+        .skill-badge i { font-size: 1rem; }
 
-        /* Projects Grid */
+        /* Projects */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
         }
         .project-card {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(0,0,0,0.05);
+            background: #f9fafb;
             border-radius: 28px;
             overflow: hidden;
             transition: 0.25s;
+            border: 1px solid #e5e7eb;
         }
-        body.dark .project-card {
-            background: rgba(30,41,59,0.6);
-            border-color: rgba(255,255,255,0.05);
-        }
-        .project-card:hover { transform: translateY(-8px); border-color: #8b5cf6; }
-        .project-icon {
-            background: linear-gradient(135deg, #4c1d95, #7c3aed);
+        body.dark .project-card { background: #111827; border-color: #1f2937; }
+        .project-card:hover { transform: translateY(-8px); border-color: #2563eb; }
+        .project-img {
+            background: linear-gradient(135deg, #1e3a8a, #4c1d95);
             padding: 2rem;
             text-align: center;
         }
-        .project-icon i { font-size: 2.5rem; color: white; }
+        .project-img i { font-size: 2.5rem; color: white; }
         .project-info { padding: 1.5rem; }
         .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
         .tag {
-            background: rgba(139,92,246,0.15);
+            background: rgba(37,99,235,0.1);
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 500;
         }
 
         /* Testimonials */
@@ -254,16 +252,15 @@
             gap: 2rem;
         }
         .testimonial-card {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(8px);
+            background: #f9fafb;
             border-radius: 24px;
             padding: 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
         }
-        body.dark .testimonial-card { background: rgba(30,41,59,0.6); }
-        .testimonial-card:hover { border: 1px solid #8b5cf6; transform: translateY(-5px); }
+        body.dark .testimonial-card { background: #111827; }
+        .testimonial-card:hover { border: 1px solid #2563eb; transform: translateY(-5px); }
 
         /* Contact */
         .contact-grid {
@@ -272,80 +269,87 @@
             gap: 3rem;
         }
         .contact-info, .contact-form {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(0,0,0,0.05);
+            background: #f9fafb;
             border-radius: 28px;
             padding: 2rem;
         }
-        body.dark .contact-info, body.dark .contact-form {
-            background: rgba(30,41,59,0.6);
-            border-color: rgba(255,255,255,0.05);
-        }
+        body.dark .contact-info, body.dark .contact-form { background: #111827; }
         .contact-item {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
-        .contact-item i { font-size: 1.3rem; color: #8b5cf6; width: 30px; }
+        .contact-item i { width: 30px; color: #2563eb; font-size: 1.2rem; }
         input, textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(255,255,255,0.3);
-            border: 1px solid #cbd5e1;
+            background: white;
+            border: 1px solid #e5e7eb;
             border-radius: 16px;
             font-family: inherit;
         }
         body.dark input, body.dark textarea {
-            background: rgba(0,0,0,0.3);
-            border-color: #334155;
+            background: #1f2937;
+            border-color: #374151;
             color: white;
         }
-        input:focus, textarea:focus { outline: none; border-color: #8b5cf6; }
+        input:focus, textarea:focus { outline: none; border-color: #2563eb; }
 
         .footer {
             text-align: center;
             padding: 2rem;
-            border-top: 1px solid rgba(0,0,0,0.05);
+            border-top: 1px solid #e5e7eb;
             margin-top: 2rem;
         }
-        body.dark .footer { border-color: #1e293b; }
+        body.dark .footer { border-color: #1f2937; }
 
         @media (max-width: 768px) {
-            .navbar { padding: 10px 20px; width: 95%; }
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2.3rem; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.95);
+                flex-direction: column;
+                padding: 1rem;
+                text-align: center;
+                gap: 1rem;
+            }
+            body.dark .nav-links { background: rgba(10,15,30,0.95); }
+            .nav-links.active { display: flex; }
+            .menu-btn { display: block; }
+            .hero h1 { font-size: 2.2rem; }
             .section-title { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Theme Toggle -->
-<div class="theme-toggle" id="themeToggle">
-    <i class="fas fa-moon"></i>
-</div>
+<button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
 
-<!-- Navbar -->
 <nav class="navbar">
-    <div class="logo">MubasherKhattak</div>
-    <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#contact">Contact</a>
+    <div class="nav-container">
+        <div class="logo">MubasherKhattak</div>
+        <div class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact</a>
+        </div>
     </div>
 </nav>
 
 <!-- Hero Section -->
 <section id="home" class="hero">
-    <div data-aos="fade-up">
+    <div>
         <h1>Hi, I'm <span class="highlight">Mubasher Khattak</span></h1>
         <p>I create stellar web experiences with modern technologies. Specializing in front-end development, I build interfaces that are both beautiful and functional.</p>
-        <div class="btn-group" style="display: flex; gap: 1rem; justify-content: center;">
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
             <a href="#projects" class="btn-primary">View My Work <i class="fas fa-arrow-right"></i></a>
             <a href="#contact" class="btn-outline">Contact Me</a>
         </div>
@@ -356,49 +360,48 @@
 <section id="about" class="section">
     <h2 class="section-title">About <span>Me</span></h2>
     <div class="about-grid">
-        <div class="about-card" data-aos="fade-up"><i class="fas fa-code"></i><h3>Web Development</h3><p>Creating responsive websites and web applications with modern frameworks.</p></div>
-        <div class="about-card" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-palette"></i><h3>UI/UX Design</h3><p>Designing intuitive user interfaces and seamless user experiences.</p></div>
-        <div class="about-card" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-briefcase"></i><h3>Project Management</h3><p>Leading projects from conception to completion with agile methodologies.</p></div>
+        <div class="about-card"><i class="fas fa-code"></i><h3>Web Development</h3><p>Creating responsive websites and web applications with modern frameworks.</p></div>
+        <div class="about-card"><i class="fas fa-palette"></i><h3>UI/UX Design</h3><p>Designing intuitive user interfaces and seamless user experiences.</p></div>
+        <div class="about-card"><i class="fas fa-briefcase"></i><h3>Project Management</h3><p>Leading projects from conception to completion with agile methodologies.</p></div>
     </div>
 </section>
 
-<!-- Skills Section (with icons exactly as requested) -->
-<section id="skills" class="section" style="background: rgba(139,92,246,0.03); border-radius: 50px;">
+<!-- Skills Section -->
+<section id="skills" class="section">
     <h2 class="section-title">My <span>Skills</span></h2>
-    <div class="skills-grid" id="skillsContainer"></div>
+    <div class="skills-grid" id="skillsGrid"></div>
 </section>
 
-<!-- Projects Section (exactly as your React data) -->
+<!-- Projects Section -->
 <section id="projects" class="section">
     <h2 class="section-title">Featured <span>Projects</span></h2>
-    <div class="projects-grid" id="projectsContainer"></div>
+    <div class="projects-grid" id="projectsGrid"></div>
 </section>
 
-<!-- Testimonials Section -->
+<!-- Testimonials -->
 <section id="testimonials" class="section">
     <h2 class="section-title">What Clients <span>Say</span></h2>
-    <div class="testimonials-grid" id="testimonialsContainer"></div>
+    <div class="testimonials-grid" id="testimonialsGrid"></div>
 </section>
 
-<!-- Contact Section (Outlook email connection) -->
+<!-- Contact Section (Outlook email) -->
 <section id="contact" class="section">
     <h2 class="section-title">Get In <span>Touch</span></h2>
     <div class="contact-grid">
-        <div class="contact-info" data-aos="fade-right">
+        <div class="contact-info">
             <div class="contact-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p>mubasherkhattak92@outlook.com</p></div></div>
             <div class="contact-item"><i class="fas fa-phone-alt"></i><div><h4>Phone</h4><p>+92 (331) 9104756</p></div></div>
             <div class="contact-item"><i class="fab fa-linkedin"></i><div><h4>LinkedIn</h4><p>@mubasherkhattakwebdeveloper</p></div></div>
             <div class="contact-item"><i class="fab fa-twitter"></i><div><h4>Twitter/X</h4><p>@Website_Typist</p></div></div>
-            <div style="background: rgba(139,92,246,0.1); padding: 1rem; border-radius: 20px; margin-top: 1rem;"><i class="fas fa-circle" style="color:#10b981; font-size: 0.7rem;"></i> Available for freelance projects</div>
+            <div style="background: rgba(37,99,235,0.1); padding: 1rem; border-radius: 20px; margin-top: 1rem;"><i class="fas fa-circle" style="color:#10b981;"></i> Available for freelance projects</div>
         </div>
-        <div class="contact-form" data-aos="fade-left">
-            <h3 style="margin-bottom: 1.5rem;">Send a Message</h3>
+        <div class="contact-form">
+            <h3>Send a Message</h3>
             <form id="contactForm" action="https://formsubmit.co/mubasherkhattak92@outlook.com" method="POST">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
-                <div class="form-group"><input type="text" name="name" placeholder="Your Name" required></div>
-                <div class="form-group"><input type="email" name="email" placeholder="Your Email" required></div>
-                <div class="form-group"><textarea name="message" rows="5" placeholder="Your Message" required></textarea></div>
+                <div style="margin-bottom: 1rem;"><input type="text" name="name" placeholder="Your Name" required></div>
+                <div style="margin-bottom: 1rem;"><input type="email" name="email" placeholder="Your Email" required></div>
+                <div style="margin-bottom: 1rem;"><textarea name="message" rows="5" placeholder="Your Message" required></textarea></div>
                 <button type="submit" class="btn-primary" style="width:100%; justify-content: center;">Send Message <i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
@@ -406,113 +409,90 @@
 </section>
 
 <footer class="footer">
-    <p>© 2025 Mubasher Khattak. All rights reserved. Built with <i class="fas fa-heart" style="color:#8b5cf6;"></i></p>
+    <p>© 2025 Mubasher Khattak. All rights reserved. Built with <i class="fas fa-heart" style="color:#2563eb;"></i></p>
 </footer>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 700, once: true, offset: 40 });
+    // Skills Data
+    const skills = ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Tailwind CSS", "Bootstrap", "WordPress", "Shopify", "WooCommerce", "PHP", "MySQL", "Git", "GitHub", "Figma", "VS Code", "Elementor"];
+    const skillsGrid = document.getElementById('skillsGrid');
+    skills.forEach(skill => {
+        const badge = document.createElement('div');
+        badge.className = 'skill-badge';
+        badge.innerHTML = `<i class="fas fa-code"></i> ${skill}`;
+        skillsGrid.appendChild(badge);
+    });
 
-    // Dark Mode Toggle
+    // Projects Data
+    const projects = [
+        { title: "Jirga Digital News", tags: ["WordPress","Elementor","SEO"], desc: "Modern news website with responsive layout and SEO optimization.", url: "https://jirgadigital.com", icon: "fas fa-newspaper" },
+        { title: "walitimes", tags: ["PHP","CSS"], desc: "Custom theme development with clean UI.", url: "https://wturdu.com/", icon: "fas fa-globe" },
+        { title: "Trada Group (WooCommerce)", tags: ["WooCommerce","PHP","JS"], desc: "Full upgrade, infinite loop, video optimization.", url: "https://tradagroup.ae/", icon: "fas fa-shopping-cart" },
+        { title: "Persis Collection", tags: ["PHP","JavaScript"], desc: "Infinite product loop without pagination.", url: "https://www.persiscollection.com/", icon: "fas fa-infinity" },
+        { title: "Casabella Designs Fix", tags: ["MySQL","cPanel"], desc: "Fixed cart errors and DB connection.", url: "https://www.casabelladesigns.com.my/", icon: "fas fa-bug" },
+        { title: "Gaiaglampinghire", tags: ["Figma","WordPress"], desc: "Figma to WordPress using Elementor.", url: "https://gaiaglampinghire.co.uk/", icon: "fas fa-campground" }
+    ];
+    const projectsGridEl = document.getElementById('projectsGrid');
+    projects.forEach(proj => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+            <div class="project-img"><i class="${proj.icon}"></i></div>
+            <div class="project-info">
+                <h3>${proj.title}</h3>
+                <div class="project-tags">${proj.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                <p>${proj.desc}</p>
+                <a href="${proj.url}" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 8px 24px;">Live Preview</a>
+            </div>
+        `;
+        projectsGridEl.appendChild(card);
+    });
+
+    // Testimonials
+    const testimonialsData = [
+        { id: 1, name: "Sarah Ahmed", text: "Amazing work! The website exceeded our expectations. Highly recommend!" },
+        { id: 2, name: "Omar Riaz", text: "Professional, punctual and delivered high-quality code. Will hire again." },
+        { id: 3, name: "Fatima Zafar", text: "Great communication and technical skills. The project was completed on time." }
+    ];
+    const testimonialsGridEl = document.getElementById('testimonialsGrid');
+    testimonialsData.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card';
+        card.innerHTML = `<i class="fas fa-quote-left" style="color:#2563eb; font-size: 1.8rem;"></i><p style="margin: 1rem 0;">"${t.text}"</p><h4>⭐ ${t.name}</h4>`;
+        testimonialsGridEl.appendChild(card);
+    });
+
+    // Dark Mode
     const toggle = document.getElementById('themeToggle');
-    const icon = toggle.querySelector('i');
+    const iconMoon = toggle.querySelector('i');
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
+        iconMoon.classList.remove('fa-moon');
+        iconMoon.classList.add('fa-sun');
     }
     toggle.addEventListener('click', () => {
         document.body.classList.toggle('dark');
         const isDark = document.body.classList.contains('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         if (isDark) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
+            iconMoon.classList.remove('fa-moon');
+            iconMoon.classList.add('fa-sun');
         } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
+            iconMoon.classList.remove('fa-sun');
+            iconMoon.classList.add('fa-moon');
         }
     });
 
-    // Skills Data (with icons, from your original list)
-    const skillsList = [
-        { name: "HTML5", icon: "fab fa-html5", color: "#E34F26" },
-        { name: "CSS3", icon: "fab fa-css3-alt", color: "#1572B6" },
-        { name: "JavaScript", icon: "fab fa-js", color: "#F7DF1E" },
-        { name: "TypeScript", icon: "fab fa-js", color: "#3178C6" },
-        { name: "React", icon: "fab fa-react", color: "#61DAFB" },
-        { name: "Tailwind CSS", icon: "fab fa-css3", color: "#06B6D4" },
-        { name: "Bootstrap", icon: "fab fa-bootstrap", color: "#7952B3" },
-        { name: "WordPress", icon: "fab fa-wordpress", color: "#21759B" },
-        { name: "Shopify", icon: "fab fa-shopify", color: "#7AB55C" },
-        { name: "WooCommerce", icon: "fab fa-wordpress", color: "#96588A" },
-        { name: "PHP", icon: "fab fa-php", color: "#777BB4" },
-        { name: "MySQL", icon: "fas fa-database", color: "#4479A1" },
-        { name: "Git", icon: "fab fa-git-alt", color: "#F05032" },
-        { name: "GitHub", icon: "fab fa-github", color: "#ffffff" },
-        { name: "Figma", icon: "fab fa-figma", color: "#F24E1E" },
-        { name: "VS Code", icon: "fas fa-code", color: "#007ACC" },
-        { name: "Elementor", icon: "fab fa-elementor", color: "#92003B" },
-        { name: "ChatGPT", icon: "fas fa-robot", color: "#10a37f" }
-    ];
-    const skillsContainer = document.getElementById('skillsContainer');
-    skillsList.forEach(skill => {
-        const div = document.createElement('div');
-        div.className = 'skill-item';
-        div.innerHTML = `<i class="${skill.icon}" style="color: ${skill.color}"></i> ${skill.name}`;
-        skillsContainer.appendChild(div);
-    });
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-    // Projects Data (exactly from your React code)
-    const projectsData = [
-        { title: "Jirga Digital News", tags: ["WordPress","Elementor","SEO"], desc: "Modern news website with responsive layout and SEO optimization.", url: "https://jirgadigital.com", icon: "fas fa-newspaper" },
-        { title: "walitimes", tags: ["PHP","CSS"], desc: "Custom theme development with clean UI.", url: "https://wturdu.com/", icon: "fas fa-globe" },
-        { title: "Trada Group (WooCommerce)", tags: ["WooCommerce","PHP","JS"], desc: "Full upgrade, infinite loop, video optimization, caching.", url: "https://tradagroup.ae/", icon: "fas fa-shopping-cart" },
-        { title: "Persis Collection", tags: ["PHP","JavaScript"], desc: "Infinite product loop without pagination.", url: "https://www.persiscollection.com/", icon: "fas fa-infinity" },
-        { title: "Casabella Designs Fix", tags: ["MySQL","cPanel"], desc: "Fixed cart errors and DB connection.", url: "https://www.casabelladesigns.com.my/", icon: "fas fa-bug" },
-        { title: "Gaiaglampinghire", tags: ["Figma","WordPress"], desc: "Figma to WordPress using Elementor.", url: "https://gaiaglampinghire.co.uk/", icon: "fas fa-campground" },
-        { title: "Digitalaimission", tags: ["WordPress","Elementor"], desc: "Pixel-perfect responsive design from Figma.", url: "https://digitalaimission.com/", icon: "fas fa-chart-line" }
-    ];
-    const projectsContainer = document.getElementById('projectsContainer');
-    projectsData.forEach(proj => {
-        const card = document.createElement('div');
-        card.className = 'project-card';
-        card.innerHTML = `
-            <div class="project-icon"><i class="${proj.icon}"></i></div>
-            <div class="project-info">
-                <h3>${proj.title}</h3>
-                <div class="project-tags">${proj.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-                <p>${proj.desc}</p>
-                <a href="${proj.url}" target="_blank" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 8px 24px;">Live Preview <i class="fas fa-external-link-alt"></i></a>
-            </div>
-        `;
-        projectsContainer.appendChild(card);
-    });
-
-    // Testimonials Data (video cards)
-    const testimonials = [
-        { id: 1, title: "Client Testimonial 1", videoId: "7xNC6CVtezw" },
-        { id: 2, title: "Client Testimonial 2", videoId: "W86FsEsACnE" },
-        { id: 3, title: "Client Testimonial 3", videoId: "vnznbOsv9Tk" }
-    ];
-    const testimonialsContainer = document.getElementById('testimonialsContainer');
-    testimonials.forEach(t => {
-        const card = document.createElement('div');
-        card.className = 'testimonial-card';
-        card.onclick = () => window.open(`https://www.youtube.com/watch?v=${t.videoId}`, '_blank');
-        card.innerHTML = `
-            <i class="fas fa-quote-left" style="color:#8b5cf6; font-size: 1.8rem; margin-bottom: 1rem;"></i>
-            <h4>${t.title}</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8;">⭐ Real client video testimonial</p>
-            <div style="margin-top: 1rem;"><i class="fas fa-play-circle" style="color:#8b5cf6;"></i> Click to watch</div>
-        `;
-        testimonialsContainer.appendChild(card);
-    });
-
-    // Smooth scroll for navbar links
+    // Smooth scroll
     document.querySelectorAll('.nav-links a').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
+            navLinks.classList.remove('active');
             const target = document.querySelector(this.getAttribute('href'));
             if (target) target.scrollIntoView({ behavior: 'smooth' });
         });
