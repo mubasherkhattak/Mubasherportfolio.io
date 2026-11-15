@@ -1281,3 +1281,86 @@ textarea {
         transform: none;
     }
 }
+
+
+
+/* FIX: Center only the hero profile image */
+.mk-hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+/* Keep text in its original left column */
+.mk-hero-grid > :first-child {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+/* Center image across the full hero width */
+.mk-hero-visual {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 390px;
+    min-height: 440px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image frame */
+.mk-portrait-frame {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 auto;
+}
+
+/* Keep image correctly cropped */
+.mk-portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Mobile layout */
+@media (max-width: 760px) {
+    .mk-hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .mk-hero-grid > :first-child {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .mk-hero-visual {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        min-height: 360px;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .mk-portrait-frame {
+        width: min(72%, 300px);
+    }
+
+    .mk-hero-copy {
+        margin-inline: auto;
+    }
+
+    .mk-hero-actions,
+    .mk-socials {
+        justify-content: center;
+    }
+}
+
