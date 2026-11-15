@@ -1,5 +1,4 @@
 
-
 :root {
     --bg: #090b10;
     --surface: #10141d;
@@ -341,7 +340,7 @@ textarea {
     box-shadow: var(--shadow);
 }
 
-/* FIXED IMAGE POSITIONING */
+/* CENTER PORTRAIT IMAGE */
 
 .mk-portrait-frame img {
     display: block;
@@ -349,7 +348,7 @@ textarea {
     height: 100%;
     max-width: none;
     object-fit: cover;
-    object-position: 50% 50% !important;
+    object-position: center center;
 }
 
 .mk-portrait-frame:after {
@@ -1158,15 +1157,13 @@ textarea {
     .mk-hero-visual {
         min-height: 360px;
         width: 100%;
+        justify-content: center;
     }
 
     .mk-portrait-frame {
         width: min(72%,300px);
         aspect-ratio: 4/4.5;
-    }
-
-    .mk-portrait-frame img {
-        object-position: 50% 50% !important;
+        margin-inline: auto;
     }
 
     .mk-hero-orbit {
@@ -1235,14 +1232,12 @@ textarea {
 
     .mk-hero-visual {
         min-height: 320px;
+        justify-content: center;
     }
 
     .mk-portrait-frame {
         width: 75%;
-    }
-
-    .mk-portrait-frame img {
-        object-position: 50% 50% !important;
+        margin-inline: auto;
     }
 
     .mk-detail-grid,
