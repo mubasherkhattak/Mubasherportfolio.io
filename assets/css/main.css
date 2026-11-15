@@ -227,8 +227,6 @@ textarea {
     overflow: hidden;
 }
 
-/* Desktop: text left, image right */
-
 .mk-hero-grid {
     display: grid;
     grid-template-columns: 1.12fr .88fr;
@@ -331,9 +329,7 @@ textarea {
 
 .mk-portrait-frame {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     width: min(100%,390px);
     aspect-ratio: 4/5;
     margin: 0 auto;
@@ -344,14 +340,15 @@ textarea {
     box-shadow: var(--shadow);
 }
 
-/* Center the complete image inside the frame */
+/* FIXED IMAGE POSITIONING */
 
 .mk-portrait-frame img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center center;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 50% !important;
 }
 
 .mk-portrait-frame:after {
@@ -1138,8 +1135,6 @@ textarea {
         min-height: auto;
     }
 
-    /* Stack hero content on mobile only */
-
     .mk-hero-grid {
         grid-template-columns: 1fr;
         gap: 35px;
@@ -1167,6 +1162,10 @@ textarea {
     .mk-portrait-frame {
         width: min(72%,300px);
         aspect-ratio: 4/4.5;
+    }
+
+    .mk-portrait-frame img {
+        object-position: 50% 50% !important;
     }
 
     .mk-hero-orbit {
@@ -1239,6 +1238,10 @@ textarea {
 
     .mk-portrait-frame {
         width: 75%;
+    }
+
+    .mk-portrait-frame img {
+        object-position: 50% 50% !important;
     }
 
     .mk-detail-grid,
