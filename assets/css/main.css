@@ -4,57 +4,6 @@
     @media(max-width:760px){.mk-container{width:min(100% - 34px,var(--max))}.mk-section{padding:78px 0}.mk-nav{height:70px}.mk-menu{display:block}.mk-nav-links{display:none;position:absolute;top:70px;left:17px;right:17px;padding:14px;background:#111620;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);align-items:stretch;gap:0}.mk-nav-links.open{display:flex;flex-direction:column}.mk-nav-links a{display:block;padding:10px 12px;font-size:.94rem}.mk-nav-links a.active:after{display:none}.mk-hero{padding:125px 0 70px;min-height:auto}.mk-hero-grid{grid-template-columns:1fr;text-align:center}.mk-hero-copy{margin-inline:auto}.mk-hero-actions,.mk-socials{justify-content:center}.mk-hero-visual{min-height:360px;order:-1}.mk-portrait-frame{width:min(72%,300px);aspect-ratio:4/4.5}.mk-hero-orbit{width:310px;height:310px}.mk-floating-card{left:2%;bottom:25px}.mk-trust-inner{justify-content:center;gap:12px 24px}.mk-about-grid,.mk-resume-grid,.mk-contact-grid{grid-template-columns:1fr}.mk-profile-card{position:static}.mk-about-content{padding:25px}.mk-volunteer-grid{grid-template-columns:1fr}.mk-testimonial-grid{grid-template-columns:repeat(2,1fr)}.mk-cta{padding:28px;align-items:flex-start;flex-direction:column}.mk-footer-inner{align-items:flex-start;flex-direction:column}}
     @media(max-width:480px){.mk-section-head{margin-bottom:32px}.mk-section-head h2{font-size:2rem}.mk-hero h1{font-size:2.7rem}.mk-hero-visual{min-height:320px}.mk-portrait-frame{width:75%}.mk-detail-grid,.mk-skill-grid,.mk-services-grid,.mk-project-grid,.mk-testimonial-grid,.mk-form-grid{grid-template-columns:1fr}.mk-field.full{grid-column:auto}.mk-profile-card{padding:23px}.mk-project-image{aspect-ratio:16/10}.mk-video-thumb{aspect-ratio:16/11}.mk-contact-form{padding:20px}.mk-floating-card{padding:10px 13px}.mk-floating-card strong{font-size:1.1rem}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.mk-reveal{opacity:1;transform:none}}
-/* Center the main hero image */
-.mk-portrait-frame {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-.mk-portrait-frame img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
-}
 
-/* Center the About section image */
-.mk-about-image,
-.mk-about-image img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-.mk-about-image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.mk-about-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-    .mk-portrait-frame,
-    .mk-about-image {
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%;
-    }
-
-    .mk-portrait-frame img,
-    .mk-about-image img {
-        object-position: 50% 40%;
-    }
-}
