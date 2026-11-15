@@ -55,7 +55,9 @@ textarea {
 }
 
 .mk-container {
-  width: min(var(--max), calc(100% - 64px));
+  width: 100%;
+  max-width: calc(var(--max) + 64px);
+  padding-inline: 32px;
   margin-inline: auto;
 }
 
@@ -376,7 +378,7 @@ textarea {
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
-  padding: 22px 0;
+  padding-block: 22px;
   color: #c3cad6;
   font-size: .88rem;
 }
@@ -1032,7 +1034,7 @@ textarea {
 
 @media (max-width: 760px) {
   .mk-container {
-    width: min(100% - 36px, var(--max));
+    padding-inline: 20px;
   }
   .mk-section {
     padding: 78px 0;
