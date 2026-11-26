@@ -715,15 +715,29 @@
     });
   });
 
-  /* Portfolio Project Navigation - FIX */
+  /* Portfolio Project Navigation - Individual Detail Pages */
+  const projectPages = {
+    gtc: 'GTC-portfolio-details.html',
+    pcom: 'Pcom-portfolio-details.html',
+    news: 'portfolio-details-1.html',
+    jirga: 'portfolio-details-2.html',
+    cloud: 'portfolio-details-3.html',
+    ttrada: 'portfolio-details-4.html',
+    persis: 'portfolio-details-5.html',
+    casabella: 'portfolio-details-6.html',
+    gaia: 'portfolio-details-7.html',
+    aimission: 'portfolio-details-8.html',
+    northcork: 'portfolio-details-9.html'
+  };
+
   document.querySelectorAll('.mk-project').forEach(card => {
 
     function openProject() {
       const projectId = card.dataset.project;
+      const projectPage = projectPages[projectId];
 
-      if (projectId) {
-        window.location.href =
-          'project-details.html?id=' + encodeURIComponent(projectId);
+      if (projectPage) {
+        window.location.href = projectPage;
       }
     }
 
